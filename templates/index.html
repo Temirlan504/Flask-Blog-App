@@ -1,10 +1,13 @@
 {% extends 'layout.html' %}
 
 {% block body %}
-    <h1>Welcome to TimBook</h1>
-    <p>
-        TimBook is a social media platform for developers.
-        Connect with other developers, share your projects,
-        and get help with your projects.
-    </p>
+    <h1>Posts</h1><br>
+    
+    {% for post in posts %}
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <p>Posted by {{ post.author }} on {{ post.date_posted }}</p>
+        </div>
+    {% endfor %}
 {% endblock %}
