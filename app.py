@@ -1,6 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, flash, redirect, url_for
+from forms import RegisterForm, LoginForm
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret'
 
 posts = [
     {
@@ -20,6 +22,24 @@ posts = [
 @app.route('/')
 def index():
     return render_template('index.html', posts=posts)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        flash( # Flash message on the page
+            f'{form.username.data} created!',
+            'success'
+        )
+        return redirect(url_for('index'))
+    return render_template('register.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return f'{form.email.data} logged in!'
+    return render_template('login.html', form=form)
 
 
 if __name__ == '__main__':
